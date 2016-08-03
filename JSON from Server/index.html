@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" integrity="sha256-MfvZlkHCEqatNoGiOXveE8FIwMzZg4W85qfrfIFBfYc= sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ=="
+    crossorigin="anonymous">
+  <script src='https://code.jquery.com/jquery-1.11.3.min.js'></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.2.0/mustache.min.js'></script>
+  <script>
+    var main = function() {
+        $.getJSON('https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.quotes%20where%20symbol%3D%22ININ%2CMITL%2CPLCM%2CAUDC%2CFIVN%2CSAAS%2CEGHT%2CCRM%2CAMZN%22&format=json&diagnostics=true&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback=', function(data) {
+        //$.getJSON('https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.quotes%20where%20symbol%3D%22ININ%2CMITL%2CPLCM%22&format=json&diagnostics=true&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback=', function(data) {
+        // YQL Statement  select * from yahoo.finance.quotes where symbol="ININ,MITL,PLCM"
+        //data is the JSON string
+
+        for (i = 0; i < 9; i++) {
+        var template = $('#personTpl').html();
+        var html = Mustache.to_html(template, data.query.results.quote[i]);
+        $('#Stock' + i + 'Area').html(html);
+        }
+
+      });
+    };
+
+    $(document).ready(main);
+  </script>
+
+  <title>Jim's Stock Watch</title>
+  <style>
+    body {
+      background-color: lightgrey;
+    }
+    h1 {
+      color: blue;
+    }
+    p {
+      color: green;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container-fluid">
+    <h1>
+      <span class="label label-primary">Jim's Stock Watch</span>
+     </h1>
+  </div>
+
+  <script id="personTpl" type="text/template">
+    <div class="col-sm-4">
+      <h3>{{Name}}<br>{{symbol}}</h3>
+      <div class="list-group">
+        <a href="#" class="list-group-item">Last Trade Price: {{LastTradePriceOnly}}</a>
+        <a href="#" class="list-group-item">Range for the Day: {{DaysRange}}</a>
+        <a href="#" class="list-group-item">Volume: {{AverageDailyVolume}}</a>
+        <a href="#" class="list-group-item">High for the Day: {{DaysHigh}}</a>
+        <a href="#" class="list-group-item">Market Capitalization: {{MarketCapitalization}}</a>
+        <a href="#" class="list-group-item">EarningsShare: {{EarningsShare}}</a>
+
+
+      </div>
+    </div>
+  </script>
+
+  <div id="Stock0Area">
+  </div>
+  <div id="Stock1Area">
+  </div>
+  <div id="Stock2Area">
+  </div>
+  <div id="Stock3Area">
+  </div>
+  <div id="Stock4Area">
+  </div>
+  <div id="Stock5Area">
+  </div>
+  <div id="Stock6Area">
+  </div>
+  <div id="Stock7Area">
+  </div>
+  <div id="Stock8Area">
+  </div>
+
+</body>
+
+</html>
